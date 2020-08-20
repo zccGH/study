@@ -1,5 +1,6 @@
 package com.zcc.study.springmvc.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -9,5 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @date
  */
 @RestController
+@RequestMapping("test")
 public class TestController {
+
+    @RequestMapping("test")
+    public String test(){
+        return null;
+    }
 }
