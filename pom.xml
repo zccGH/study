@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- parent指明继承关系，给出被继承的父项目的具体信息-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.zcc.study</groupId>
+    <artifactId>study</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <!--父模块打包类型必须为 pom-->
+    <packaging>pom</packaging>
+
+    <!--给出所有的子模块，其中每个module，都是另外一个maven项目-->
+    <modules>
+        <!--module的值为子模块的artifactId,即项目名称-->
+        <module>mybatis</module>
+        <module>springmvc</module>
+        <module>utils</module>
+    </modules>
+
+    <name>study</name>
+    <description>Demo project for Spring Boot</description>
+
+    <!-- 在properties中统一控制依赖包的版本，更清晰
+         一些常用依赖的版本控制交由spring boot父级依赖（spring-boot-starter-parent）管理
+      -->
+    <properties>
+        <java.version>1.8</java.version>
+        <mybabis-plus.version>3.3.2</mybabis-plus.version>
+        <druid.version>1.1.20</druid.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
+        <fastjson.version>1.2.68</fastjson.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
+        <p6spy.version>3.8.7</p6spy.version>
+    </properties>
+
+    <!--dependencyManagement用于管理依赖版本号-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 删除以下依赖，因为parent中继承的祖先中已经有了，并且一般dependencyManagement管理的依赖都要写版本号 -->
+            <!-- <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
+             </dependency>
+             <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-starter-web</artifactId>
+             </dependency>
+
+             <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-devtools</artifactId>
+                 <scope>runtime</scope>
+                 <optional>true</optional>
+             </dependency>
+             <dependency>
+                 <groupId>mysql</groupId>
+                 <artifactId>mysql-connector-java</artifactId>
+                 <scope>runtime</scope>
+             </dependency>
+             <dependency>
+                 <groupId>org.projectlombok</groupId>
+                 <artifactId>lombok</artifactId>
+                 <optional>true</optional>
+             </dependency>
+             <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-starter-test</artifactId>
+                 <scope>test</scope>
+                 <exclusions>
+                     <exclusion>
+                         <groupId>org.junit.vintage</groupId>
+                         <artifactId>junit-vintage-engine</artifactId>
+                     </exclusion>
+                 </exclusions>
+             </dependency>-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybabis-plus.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <!--该插件作用是打一个可运行的包，必须要写在需要打包的项目里。这里的父模块不需要打包运行，所以删掉该插件。-->
+   <!-- <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>-->
+
+</project>
