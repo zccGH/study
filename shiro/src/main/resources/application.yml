@@ -1,0 +1,41 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /shiro
+spring:
+  datasource:
+    url: jdbc:p6spy:mysql://localhost:3306/studyshiro?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    # testWhileIdle: false
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  mvc:
+    static-path-pattern: /uploads/**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:D:/document/image/
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.zcc.study.shiro.domain
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      # 配置表名前缀，例如表设计时表名为sys_user,对应entity为User
+      table-prefix: sys_
