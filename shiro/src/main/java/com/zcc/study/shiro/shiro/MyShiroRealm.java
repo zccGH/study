@@ -1,5 +1,6 @@
 package com.zcc.study.shiro.shiro;
 
+import com.zcc.study.shiro.constant.ShiroConstant;
 import com.zcc.study.shiro.domain.Permission;
 import com.zcc.study.shiro.domain.Role;
 import com.zcc.study.shiro.domain.User;
@@ -7,14 +8,12 @@ import com.zcc.study.shiro.service.PermissionService;
 import com.zcc.study.shiro.service.RoleService;
 import com.zcc.study.shiro.service.UserService;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ import java.util.Set;
  * @Version V1.0
  **/
 @Component
-public class ShiroRealm extends AuthorizingRealm {
+public class MyShiroRealm extends AuthorizingRealm {
 
     @Autowired
     UserService userService;
@@ -76,7 +75,7 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //加这一步的木器是在post请求的时候会先进行验证，然后再到请求、
+        //加这一步的是在post请求的时候会先进行验证，然后再到请求、
         if(null==authenticationToken.getPrincipal()){
             return null;
         }
@@ -86,9 +85,18 @@ public class ShiroRealm extends AuthorizingRealm {
         if (null==user) {
             //这里返回后会报对应的异常
             return null;
+        } else if(ShiroConstant.USER_STATE_LOCKED.equals(user.getUserState())){
+            //账户冻结
+            throw new LockedAccountException();
         }else {
-            //这里验证authenticationToken和simpleAuthenticationInfo的信息
-            SimpleAuthenticationInfo simpleAuthenticationInfo=new SimpleAuthenticationInfo(username,user.getPassword(),getName());
+            /**
+             * 这里验证authenticationToken和simpleAuthenticationInfo的信息
+             * 参数1:登录用户名
+             * 参数2：登录密码
+             * 参数3：盐
+             * 参数4：realm类名
+             */
+            SimpleAuthenticationInfo simpleAuthenticationInfo=new SimpleAuthenticationInfo(username,user.getPassword(), ByteSource.Util.bytes(user.getCredentialsSalt()),getName());
             return simpleAuthenticationInfo;
         }
     }

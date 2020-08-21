@@ -1,13 +1,17 @@
 package com.zcc.study.shiro.shiro;
 
 import com.zcc.study.shiro.constant.ShiroConstant;
+import com.zcc.study.shiro.exception.ShiroExceptionHandler;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,18 +39,29 @@ public class ShiroConfig {
 
     //创建自定义realm，注入凭证匹配器
     @Bean
-    public ShiroRealm shiroRealm(){
-        ShiroRealm shiroRealm=new ShiroRealm();
-        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        return shiroRealm;
+    public MyShiroRealm shiroRealm(){
+        MyShiroRealm myShiroRealm =new MyShiroRealm();
+        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return myShiroRealm;
+    }
+
+    /**
+     * 注册自定义sessionManager
+     * @return
+     */
+    @Bean
+    public SessionManager sessionManager(){
+        MySessionManager mySessionManager=new MySessionManager();
+        return mySessionManager;
     }
 
     //创建权限管理器，注入自定义验证方式
     @Bean
     public SecurityManager securityManager(){
-        DefaultSecurityManager defaultSecurityManager=new DefaultSecurityManager();
-        defaultSecurityManager.setRealm(shiroRealm());
-        return defaultSecurityManager;
+        DefaultWebSecurityManager defaultWebSecurityManager =new DefaultWebSecurityManager();
+        defaultWebSecurityManager.setRealm(shiroRealm());
+        defaultWebSecurityManager.setSessionManager(sessionManager());
+        return defaultWebSecurityManager;
     }
 
     /**
@@ -70,7 +85,7 @@ public class ShiroConfig {
         //配置其它资源路径需要认证
         map.put("/**","authc");
         //配置shiro默认登录界面地址，前后端分离中登录界面跳转应有前端南路由控制，后台仅返回json数据
-        shiroFilterFactoryBean.setLoginUrl("/unauth");
+        shiroFilterFactoryBean.setLoginUrl("/shiro/ajaxLogin");
         //登录成功后要跳转的地址，在前后端分离项目中，不需配置
         //shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权页面,前后端分离项目中由前端配置，后端返回响应的状态码即可；
@@ -88,6 +103,15 @@ public class ShiroConfig {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor=new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
+    }
+
+    /**
+     * 注册全局异常处理
+     * @return
+     */
+    @Bean(name = "exceptionHandler")
+    public HandlerExceptionResolver handlerExceptionResolver(){
+        return new ShiroExceptionHandler();
     }
 
 }

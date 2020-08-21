@@ -18,4 +18,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     User getUserByUserName(String username);
+
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
+    boolean saveUser(User user);
+
 }
