@@ -6,9 +6,11 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -25,6 +27,23 @@ import java.util.Map;
  **/
 @Configuration
 public class ShiroConfig {
+
+    /**
+     * 开启shiro aop注解支持
+     * 使用代理方式；所以需要开启代码支持
+     * 下面两个方法对 注解权限起作用有很大的关系，把这两个方法，放在配置的最上面
+     */
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor(){
+        return new LifecycleBeanPostProcessor();
+    }
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator=new DefaultAdvisorAutoProxyCreator();
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+
 
     //凭证匹配器，自定义密码加密方式
     @Bean
@@ -80,12 +99,14 @@ public class ShiroConfig {
         //配置 放行的资源路径 顺序判断
         //系统静态资源放行
         map.put("/static/**","anon");
+        //登录几口路径放行
         map.put("/ajaxLogin","anon");
-        map.put("/login","anon");
         //配置其它资源路径需要认证
         map.put("/**","authc");
-        //配置shiro默认登录界面地址，前后端分离中登录界面跳转应有前端南路由控制，后台仅返回json数据
-        shiroFilterFactoryBean.setLoginUrl("/shiro/ajaxLogin");
+        //配置shiro默认跳转到登录页面的地址，在前后端分离项目中，页面跳转由前端负责，所以此处可以不用设置
+        //shiroFilterFactoryBean.setLoginUrl("/ajaxLogin");
+        //未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+        shiroFilterFactoryBean.setLoginUrl("/unauth");
         //登录成功后要跳转的地址，在前后端分离项目中，不需配置
         //shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权页面,前后端分离项目中由前端配置，后端返回响应的状态码即可；
@@ -94,10 +115,7 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    /**
-     * 开启shiro aop注解支持
-     * 使用代理方式；所以需要开启代码支持
-     */
+
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor=new AuthorizationAttributeSourceAdvisor();

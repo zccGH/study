@@ -16,6 +16,9 @@ public class ShiroConstant {
     public static final Integer USER_STATE_NORMAL=0;
     //用户状态-锁定
     public static final Integer USER_STATE_LOCKED=1;
+    //生成随机盐字符串长度
+    public static final Integer SALT_STR_LENGTH=20;
+
 
 
 }

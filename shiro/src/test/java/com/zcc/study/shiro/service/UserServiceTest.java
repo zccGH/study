@@ -18,7 +18,6 @@ class UserServiceTest extends ShiroApplicationTests {
     void saveUser() {
         User user=new User();
         user.setUsername("赵成成");
-        user.setSalt("zcc123");
         user.setPassword("123456");
         user.setUserState(0);
         userService.saveUser(user);

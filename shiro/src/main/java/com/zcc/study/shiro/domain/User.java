@@ -47,11 +47,4 @@ public class User implements Serializable {
     @TableField(exist = false)
     private Set<Role> roles;
 
-    /**
-     * 密码盐
-     * @return
-     */
-    public String getCredentialsSalt(){
-        return this.username+this.salt;
-    }
 }

@@ -2,10 +2,12 @@ package com.zcc.study.shiro.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zcc.study.shiro.constant.ShiroConstant;
 import com.zcc.study.shiro.domain.User;
 import com.zcc.study.shiro.mapper.UserMapper;
 import com.zcc.study.shiro.service.UserService;
 import com.zcc.study.shiro.util.MD5Util;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,8 +39,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public boolean saveUser(User user) {
+        //设置随机盐
+        user.setSalt(RandomStringUtils.randomAlphanumeric(ShiroConstant.SALT_STR_LENGTH));
         //密码加密处理
-        user.setPassword(MD5Util.encryption(user.getPassword(),user.getUsername()+user.getSalt()));
+        user.setPassword(MD5Util.encryption(user.getPassword(),user.getSalt()));
         return save(user);
     }
 }

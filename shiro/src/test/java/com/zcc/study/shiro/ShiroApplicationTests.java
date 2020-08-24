@@ -3,6 +3,7 @@ package com.zcc.study.shiro;
 import com.zcc.study.shiro.domain.Permission;
 import com.zcc.study.shiro.mapper.PermissionMapper;
 import com.zcc.study.shiro.mapper.RoleMapper;
+import com.zcc.study.shiro.service.RoleService;
 import com.zcc.study.shiro.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,7 @@ public class ShiroApplicationTests {
     protected PermissionMapper permissionMapper;
     @Autowired
     protected UserService userService;
+    @Autowired
+    protected RoleService roleService;
 
 }

@@ -1,8 +1,13 @@
 package com.zcc.study.shiro.util;
 
 import com.zcc.study.shiro.constant.ShiroConstant;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName MD5Util
@@ -12,6 +17,14 @@ import org.apache.shiro.util.ByteSource;
  * @Version V1.0
  **/
 public class MD5Util {
+
+
+    public static void main(String[] args) {
+
+        List<String> list=new ArrayList<>();
+        list.add(null);
+        System.out.println(CollectionUtils.isNotEmpty(list));
+    }
     /**
      * md5密码加密
      * @param password

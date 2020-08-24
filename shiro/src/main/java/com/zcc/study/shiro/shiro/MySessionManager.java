@@ -25,6 +25,11 @@ public class MySessionManager extends DefaultWebSessionManager {
 
     public MySessionManager(){
         super();
+        /**
+         * shiro session默认失效时间是30min,可以自定义session失效时间
+         * 一下表示设置session过期时间为24小时
+         */
+        setGlobalSessionTimeout(DEFAULT_GLOBAL_SESSION_TIMEOUT*2);
     }
 
     @Override

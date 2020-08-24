@@ -1,15 +1,13 @@
 package com.zcc.study.shiro.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zcc.study.shiro.config.ResponseData;
 import com.zcc.study.shiro.domain.User;
 import com.zcc.study.utils.config.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -51,9 +49,18 @@ public class ShiroController extends BaseController {
     /**
      * 退出登录
      */
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public void logout(){
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
     }
+
+    /**
+     * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+     */
+    @GetMapping("/unauth")
+    public Map<String,Object> unauth(){
+        return getResponseData(HttpStatus.FORBIDDEN,"未登录，请登录！");
+    }
+
 }
