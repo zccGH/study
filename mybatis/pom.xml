@@ -6,7 +6,6 @@
         <groupId>com.zcc.study</groupId>
         <artifactId>study</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.zcc.study.mybatis</groupId>
     <artifactId>mybatis</artifactId>
