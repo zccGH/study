@@ -1,13 +1,14 @@
 package com.zcc.study.mybatis;
 
+import com.zcc.study.mybatis.redis.mapper.ProductMapper;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MybatisApplicationTests {
+public class MybatisApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+  @Autowired
+  protected ProductMapper productMapper;
 
 }
