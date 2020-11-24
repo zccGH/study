@@ -43,7 +43,7 @@ public class RedisUtil {
          * @param end
          * @return
          */
-        public List<Product> get(String key, Long start, Long end){
+        public List<?> get(String key, Long start, Long end){
             try {
                 return redisTemplate.opsForList().range(key, start, end);
             } catch (Exception e) {

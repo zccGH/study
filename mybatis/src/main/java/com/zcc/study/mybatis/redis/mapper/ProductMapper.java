@@ -1,5 +1,6 @@
 package com.zcc.study.mybatis.redis.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zcc.study.mybatis.redis.domain.Product;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @Version V1.0
  **/
 @Mapper
-public interface ProductMapper {
+public interface ProductMapper extends BaseMapper<Product> {
 
     /**
      * 查询图书列表
