@@ -41,6 +41,7 @@
         <p6spy.version>3.8.7</p6spy.version>
         <shiro.version>1.5.3</shiro.version>
         <mybatis-version>1.3.2</mybatis-version>
+        <pagehelper.boot.version>1.3.0</pagehelper.boot.version>
     </properties>
 
     <!--dependencyManagement用于管理依赖版本号-->
@@ -83,6 +84,7 @@
                      </exclusion>
                  </exclusions>
              </dependency>-->
+
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring</artifactId>
@@ -99,11 +101,18 @@
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-            <dependency>
+            <!--引入mybatis-plus-boot-starter依赖后，已经存在以下两个依赖，重复引入会报错-->
+            <!--<dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-version}</version>
             </dependency>
+            &lt;!&ndash; pagehelper 分页插件 &ndash;&gt;
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>-->
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>

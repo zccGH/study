@@ -1,11 +1,10 @@
 package com.zcc.study.mybatis.redis.service.impl;
 
-import com.alibaba.druid.support.logging.Log;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zcc.study.mybatis.redis.domain.Product;
 import com.zcc.study.mybatis.redis.mapper.ProductMapper;
 import com.zcc.study.mybatis.redis.service.ProductService;
 import com.zcc.study.mybatis.redis.utils.RedisUtil;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * @Version V1.0
  **/
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
@@ -40,4 +39,5 @@ public class ProductServiceImpl implements ProductService {
         }
         return list;
     }
+
 }
