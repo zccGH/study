@@ -1,6 +1,5 @@
 package com.zcc.study.mybatis.redis.utils;
 
-import com.zcc.study.mybatis.redis.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

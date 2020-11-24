@@ -9,8 +9,6 @@ class ProductServiceTest extends MybatisApplicationTests {
 
     @Test
     void listProduct() {
-        System.out.println(productService);
-        ProductService productService=new ProductServiceImpl();
         productService.listProduct().forEach(System.out::println);
     }
 }

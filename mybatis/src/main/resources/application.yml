@@ -26,7 +26,7 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   redis:
     # redis服务器资质
-    host: 10.0.2.32
+    host: 10.0.2.37
     # redis服务器连接端口
     port: 6379
     # redis服务器连接密码（默认为空）
@@ -42,7 +42,7 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 0
     lettuce:
-      shutdown-timeout: 0
+      shutdown-timeout: 5000
     # Redis数据库索引（默认为0）,此处设置为数据库1 redis有16个数据库
     database: 1
 mybatis-plus:
