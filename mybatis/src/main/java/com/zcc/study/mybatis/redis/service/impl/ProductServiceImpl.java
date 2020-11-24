@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> list=new ArrayList<>();
         //判断缓存中是否有这个list
         if (redisUtil.haskey("productList")){
-            list=redisList.get("productList", 0L, -1L);
+            list= (List<Product>) redisList.get("productList", 0L, -1L);
         }else {
             list=productMapper.selectProductList();
             redisList.set("productList", list);
